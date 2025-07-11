@@ -7,8 +7,19 @@ builder.Services.AddDbContext<ToDoDbContext>(options =>
     options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=ToDo;Trusted_Connection=True;TrustServerCertificate=True"));
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:5124", "https://localhost:7226") // Add your client URLs here
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -19,6 +30,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Enable CORS
+app.UseCors();
 
 app.UseAuthorization();
 
