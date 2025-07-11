@@ -188,7 +188,7 @@ h3 {
         box-shadow: 0 4px 14px rgba(246,114,128,0.16);
     }
 
-/* Animations for adding/removing todos (requires JS or Blazor animation hooks for full effect) */
+
 .todo-list-item.removing {
     animation: itemRemove 0.35s cubic-bezier(.5,.2,.7,1) forwards;
 }
@@ -207,7 +207,7 @@ h3 {
     transition: box-shadow 0.2s, transform 0.17s;
 }
 
-/* Custom scrollbar for the todo list (modern look) */
+/* Custom scrollbar for the todo list */
 .todo-list {
     max-height: 380px;
     overflow-y: auto;
