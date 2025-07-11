@@ -1,0 +1,54 @@
+﻿@page "/"
+@using ToDoDotNetCoreHosted.Shared
+@inject HttpClient Http
+<h3>To-Do List</h3>
+<label>Add Item</label>
+<input type="text" id="todoInput" class="todoitem" placeholder="To Do Item Here" @bind="todoString"/>
+<button @onclick="() => AddItem(todoString)">Add</button>
+<ul>
+    @foreach (var item in items)
+    {
+        <li>
+            <input type="checkbox" checked="@item.IsCompleted" @onchange="()=>ToggleCompleteStatus(item)"/>
+            @item.Title
+        </li>
+    }
+</ul>
+
+@code {
+    string? todoString;
+    List<ToDoItem> items = new();
+    ToDoItem? editingItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        items = await Http.GetFromJsonAsync<List<ToDoItem>>("api/todo");
+    }
+
+    async Task AddItem(string title)
+    {
+        var newItem = new ToDoItem { Title = title, IsCompleted = false };
+        var response = await Http.PostAsJsonAsync("api/todo", newItem);
+        if (response.IsSuccessStatusCode)
+        {
+            items.Add(await response.Content.ReadFromJsonAsync<ToDoItem>());
+        }
+    }
+
+
+    private async Task ToggleCompleteStatus(ToDoItem item)
+    {
+        item.IsCompleted = !item.IsCompleted;
+        var response = await Http.PutAsJsonAsync($"api/todo/{item.Id}", item);
+        if (response.IsSuccessStatusCode)
+        {
+            var index = items.FindIndex(i => i.Id == item.Id);
+            if (index != -1)
+            {
+                items[index] = item;
+            }
+        }
+
+    }
+
+}
