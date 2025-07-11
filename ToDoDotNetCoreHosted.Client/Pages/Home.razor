@@ -1,19 +1,30 @@
 ﻿@page "/"
 @using ToDoDotNetCoreHosted.Shared
+@using ToDoDotNetCoreHosted.Client
+@namespace ToDoDotNetCoreHosted
 @inject HttpClient Http
-<h3>To-Do List</h3>
-<label>Add Item</label>
-<input type="text" id="todoInput" class="todoitem" placeholder="To Do Item Here" @bind="todoString"/>
-<button @onclick="() => AddItem(todoString)">Add</button>
-<ul>
-    @foreach (var item in items)
-    {
-        <li>
-            <input type="checkbox" checked="@item.IsCompleted" @onchange="()=>ToggleCompleteStatus(item)"/>
-            @item.Title
-        </li>
-    }
-</ul>
+@inject HttpClient Https
+
+<div class="todo-container">
+    <h3>To-Do List</h3>
+    <div class="todo-input-row">
+        <input type="text" id="todoInput" class="todoitem" placeholder="To Do Item Here" @bind="todoString" />
+        <button class="add-btn" @onclick="() => AddItem(todoString)">+</button>
+    </div>
+    <ul class="todo-list">
+        @foreach (var item in items)
+        {
+            <li class="todo-list-item">
+                <input type="checkbox" checked="@item.IsCompleted" @onchange="() => ToggleCompleteStatus(item)" />
+                <span class="todo-title @(item.IsCompleted ? "completed" : "")">@item.Title</span>
+                <button class="edit-btn">Edit</button>
+                <button class="delete-btn">Delete</button>
+            </li>
+        }
+    </ul>
+</div>
+
+
 
 @code {
     string? todoString;
@@ -48,7 +59,6 @@
                 items[index] = item;
             }
         }
-
     }
 
 }
