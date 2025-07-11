@@ -25,7 +25,7 @@ public class ToDoController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
     }
 
-    // Update a to-do item
+   
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(int id, ToDoItem item)
     {
@@ -49,7 +49,7 @@ public class ToDoController : ControllerBase
         return NoContent();
     }
 
-    // Delete a to-do item
+  
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
