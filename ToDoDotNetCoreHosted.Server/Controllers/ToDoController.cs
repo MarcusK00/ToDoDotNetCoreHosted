@@ -25,9 +25,8 @@ public class ToDoController : ControllerBase
         return CreatedAtAction(nameof(Get), new { id = item.Id }, item);
     }
 
-   
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, ToDoItem item)
+    public async Task<ActionResult<ToDoItem>> Put(int id, ToDoItem item)
     {
         if (id != item.Id)
             return BadRequest();
@@ -38,6 +37,7 @@ public class ToDoController : ControllerBase
         {
             await _context.SaveChangesAsync();
         }
+
         catch (DbUpdateConcurrencyException)
         {
             if (!_context.ToDoItems.Any(e => e.Id == id))
@@ -48,6 +48,34 @@ public class ToDoController : ControllerBase
 
         return NoContent();
     }
+   
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     [HttpDelete("{id}")]
     public async Task <IActionResult> Delete(int id)

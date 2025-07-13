@@ -79,7 +79,7 @@
             var created = await resp.Content.ReadFromJsonAsync<ToDoItem>();
             items.Add(created!);
         }
-        todoString = "";
+        todoString = string.Empty;
     }
 
     private async Task ToggleCompleteStatus(ToDoItem item)
@@ -100,7 +100,7 @@
             items.Remove(item);
     }
 
- 
+
 
     void StartEdit(ToDoItem item)
     {
@@ -113,16 +113,16 @@
         isEditing[itemId] = false;
     }
 
-    async Task ConfirmEdit(int itemId)
+    async Task ConfirmEdit(int id)
     {
-        var item = items.First(i => i.Id == itemId);
-        item.Title = editTexts[itemId];   
-        var resp = await Http.PutAsJsonAsync($"api/todo/{itemId}", item);
-        if (resp.IsSuccessStatusCode)
+        var item = items.First(i => i.Id == id);
+        item.Title = editTexts[id];
+        var response = Http.PutAsJsonAsync($"api/todo/{id}", item);
+        if(response.IsCompletedSuccessfully)
         {
-            var idx = items.FindIndex(i => i.Id == itemId);
+            var idx = items.FindIndex(i => i.Id == item.Id);
             items[idx] = item;
         }
-        isEditing[itemId] = false;
+        isEditing[id] = false;
     }
 }
