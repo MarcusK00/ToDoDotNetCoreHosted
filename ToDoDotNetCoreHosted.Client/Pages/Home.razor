@@ -18,7 +18,7 @@
                 <input type="checkbox" checked="@item.IsCompleted" @onchange="() => ToggleCompleteStatus(item)" />
                 <span class="todo-title @(item.IsCompleted ? "completed" : "")">@item.Title</span>
                 <button class="edit-btn">Edit</button>
-                <button class="delete-btn">Delete</button>
+                <button class="delete-btn" @onclick="() => DeleteItem(item)">Delete</button>
             </li>
         }
     </ul>
@@ -60,5 +60,19 @@
             }
         }
     }
+
+    private async Task DeleteItem(ToDoItem item)
+    {
+
+        var response = await Http.DeleteAsync($"api/todo/{item.Id}");
+        if(response.IsSuccessStatusCode)
+        {
+            items.Remove(item);
+        }
+    }
+
+
+
+
 
 }
