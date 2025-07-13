@@ -145,8 +145,7 @@ dotnet ef database update
 ### Server (ASP.NET Core Web API)
 
 * `Microsoft.EntityFrameworkCore.SqlServer` – SQL Server provider
-* `Microsoft.EntityFrameworkCore.Tools` – EF Core command-line tools
-* `Swashbuckle.AspNetCore` – Swagger/OpenAPI support
+* `Microsoft.EntityFrameworkCore.Tools` – EF Core command-line tool
 
 Install via CLI:
 
@@ -160,14 +159,12 @@ dotnet add Server/Server.csproj package Swashbuckle.AspNetCore
 
 * `Microsoft.AspNetCore.Components.WebAssembly` – Blazor WASM runtime
 * `Microsoft.AspNetCore.Components.WebAssembly.Http` – HTTP support
-* `MudBlazor` (optional) – Modern UI components (if used)
 
 Install via CLI:
 
 ```bash
 dotnet add Client/Client.csproj package Microsoft.AspNetCore.Components.WebAssembly
 dotnet add Client/Client.csproj package Microsoft.AspNetCore.Components.WebAssembly.Http
-dotnet add Client/Client.csproj package MudBlazor
 ```
 
 ---
