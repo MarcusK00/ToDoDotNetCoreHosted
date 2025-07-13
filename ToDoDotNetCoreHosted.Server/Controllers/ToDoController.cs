@@ -49,17 +49,27 @@ public class ToDoController : ControllerBase
         return NoContent();
     }
 
-  
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task <IActionResult> Delete(int id)
     {
         var item = await _context.ToDoItems.FindAsync(id);
         if (item == null)
+        {
             return NotFound();
+        }
 
         _context.ToDoItems.Remove(item);
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if(!_context.ToDoItems.Any(e => e.Id == id))
+            {
 
+            }
+        }
         return NoContent();
     }
 }
