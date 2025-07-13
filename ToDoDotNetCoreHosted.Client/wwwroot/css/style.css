@@ -200,14 +200,14 @@ h3 {
     }
 }
 
-/* Subtle hover effect on todo items */
+
 .todo-list-item:hover {
     box-shadow: 0 4px 18px rgba(121,184,243,0.14);
     transform: scale(1.02) translateY(-2px);
     transition: box-shadow 0.2s, transform 0.17s;
 }
 
-/* Custom scrollbar for the todo list */
+
 .todo-list {
     max-height: 380px;
     overflow-y: auto;
@@ -228,7 +228,6 @@ h3 {
         background: #f6fafd;
     }
 
-/* Responsive improvements */
 @media (max-width: 520px) {
     .todo-container {
         max-width: 98vw;
