@@ -60,7 +60,7 @@ h3 {
     gap: 14px;
     margin-bottom: 24px;
 }
-
+.edit-box,
 .todoitem {
     flex: 1;
     padding: 12px 14px;
@@ -135,6 +135,7 @@ h3 {
     transition: accent-color 0.2s;
 }
 
+.edit-box,
 .todo-title {
     flex: 1;
     font-size: 1.07rem;
@@ -151,6 +152,7 @@ h3 {
         opacity: 0.7;
     }
 
+.confirm-box,
 .edit-btn,
 .delete-btn {
     margin-left: 10px;
@@ -167,13 +169,13 @@ h3 {
 
 .edit-btn {
     background: linear-gradient(90deg, #ffe066 60%, #ffd43b 100%);
-    color: #333;
+    color: #fff;
 }
 
     .edit-btn:hover {
         background: linear-gradient(90deg, #ffd43b 60%, #ffe066 100%);
         transform: scale(1.09) rotate(-2deg);
-        color: #111;
+        color: #fff;
     }
 
 .delete-btn {
@@ -183,6 +185,16 @@ h3 {
 
     .delete-btn:hover {
         background: linear-gradient(90deg, #e5505a 60%, #f67280 100%);
+        transform: scale(1.09) rotate(2deg);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(246,114,128,0.16);
+    }
+.confirm-box {
+    background: linear-gradient(90deg, #5CF28C 60%, #24F064 100%);
+    color: #fff;
+}
+    .confirm-box:hover {
+        background: linear-gradient(90deg, #26FF43 60%, #00FC50 100%);
         transform: scale(1.09) rotate(2deg);
         color: #fff;
         box-shadow: 0 4px 14px rgba(246,114,128,0.16);
