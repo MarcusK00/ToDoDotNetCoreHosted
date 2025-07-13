@@ -1,35 +1,68 @@
 ﻿@page "/"
 @using ToDoDotNetCoreHosted.Shared
-@using ToDoDotNetCoreHosted.Client
-@namespace ToDoDotNetCoreHosted
 @inject HttpClient Http
-@inject HttpClient Https
 
 <div class="todo-container">
     <h3>To-Do List</h3>
     <div class="todo-input-row">
-        <input type="text" id="todoInput" class="todoitem" placeholder="To Do Item Here" @bind="todoString" />
+        <input type="text" placeholder="To Do Item Here" @bind="todoString" class="todoitem" />
         <button class="add-btn" @onclick="() => AddItem(todoString)">+</button>
     </div>
+
     <ul class="todo-list">
         @foreach (var item in items)
         {
             <li class="todo-list-item">
-                <input type="checkbox" checked="@item.IsCompleted" @onchange="() => ToggleCompleteStatus(item)" />
-                <span class="todo-title @(item.IsCompleted ? "completed" : "")">@item.Title</span>
-                <button class="edit-btn">Edit</button>
-                <button class="delete-btn" @onclick="() => DeleteItem(item)">Delete</button>
+
+
+                @* if this item is in “edit mode” *@
+                @if (isEditing.ContainsKey(item.Id) && isEditing[item.Id])
+                {
+                    <input class="edit-box"
+                           type="text"
+                           @bind="editTexts[item.Id]" />
+                    <button class="confirm-box"
+                            @onclick="() => ConfirmEdit(item.Id)">
+                        ✔
+                    </button>
+                    <button class="edit-btn"
+                            @onclick="() => CancelEdit(item.Id)">
+                        ✖
+                    </button>
+                }
+                else
+                {
+                    <input type="checkbox"
+                           checked="@item.IsCompleted"
+                           @onchange="() => ToggleCompleteStatus(item)" />
+
+                    <span class="todo-title @(item.IsCompleted ? "completed" : "")">
+                        @item.Title
+                    </span>
+                    <button class="edit-btn"
+                            @onclick="() => StartEdit(item)">
+                        Edit
+                    </button>
+
+                    <button class="delete-btn"
+                            @onclick="() => DeleteItem(item)">
+                        Delete
+                    </button>
+                }
+
+
             </li>
         }
     </ul>
 </div>
 
-
-
 @code {
-    string? todoString;
-    List<ToDoItem> items = new();
-    ToDoItem? editingItem;
+    private string? todoString;
+    private List<ToDoItem> items = new();
+
+    private Dictionary<int, bool> isEditing = new();
+
+    private Dictionary<int, string> editTexts = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,41 +71,58 @@
 
     async Task AddItem(string title)
     {
+        if (string.IsNullOrWhiteSpace(title)) return;
         var newItem = new ToDoItem { Title = title, IsCompleted = false };
-        var response = await Http.PostAsJsonAsync("api/todo", newItem);
-        if (response.IsSuccessStatusCode)
+        var resp = await Http.PostAsJsonAsync("api/todo", newItem);
+        if (resp.IsSuccessStatusCode)
         {
-            items.Add(await response.Content.ReadFromJsonAsync<ToDoItem>());
+            var created = await resp.Content.ReadFromJsonAsync<ToDoItem>();
+            items.Add(created!);
         }
+        todoString = "";
     }
-
 
     private async Task ToggleCompleteStatus(ToDoItem item)
     {
         item.IsCompleted = !item.IsCompleted;
-        var response = await Http.PutAsJsonAsync($"api/todo/{item.Id}", item);
-        if (response.IsSuccessStatusCode)
+        var resp = await Http.PutAsJsonAsync($"api/todo/{item.Id}", item);
+        if (resp.IsSuccessStatusCode)
         {
-            var index = items.FindIndex(i => i.Id == item.Id);
-            if (index != -1)
-            {
-                items[index] = item;
-            }
+            var idx = items.FindIndex(i => i.Id == item.Id);
+            items[idx] = item;
         }
     }
 
     private async Task DeleteItem(ToDoItem item)
     {
-
-        var response = await Http.DeleteAsync($"api/todo/{item.Id}");
-        if(response.IsSuccessStatusCode)
-        {
+        var resp = await Http.DeleteAsync($"api/todo/{item.Id}");
+        if (resp.IsSuccessStatusCode)
             items.Remove(item);
-        }
     }
 
+ 
 
+    void StartEdit(ToDoItem item)
+    {
+        isEditing[item.Id] = true;
+        editTexts[item.Id] = item.Title;  
+    }
 
+    void CancelEdit(int itemId)
+    {
+        isEditing[itemId] = false;
+    }
 
-
+    async Task ConfirmEdit(int itemId)
+    {
+        var item = items.First(i => i.Id == itemId);
+        item.Title = editTexts[itemId];   
+        var resp = await Http.PutAsJsonAsync($"api/todo/{itemId}", item);
+        if (resp.IsSuccessStatusCode)
+        {
+            var idx = items.FindIndex(i => i.Id == itemId);
+            items[idx] = item;
+        }
+        isEditing[itemId] = false;
+    }
 }
