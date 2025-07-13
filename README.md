@@ -1,8 +1,8 @@
 # ToDo List Application
 
 A ToDo list web app built with **Blazor WebAssembly** (frontend) and **ASP.NET Core Web API** (backend), persisting data to a SQL Server database.
-
-<img width="930" height="842" alt="todohome" src="https://github.com/user-attachments/assets/931d35a7-d1c3-4c24-bc16-dbc8d24ced49" />
+<img width="1842" height="901" alt="HOME" src="https://github.com/user-attachments/assets/a9adcf88-d72f-43c6-b758-d85ca45aa717" />
+<img width="1847" height="897" alt="EDIT" src="https://github.com/user-attachments/assets/151925b6-cd05-4e21-8bfa-3a1785aae8f9" />
 
 ---
 
@@ -24,7 +24,6 @@ A ToDo list web app built with **Blazor WebAssembly** (frontend) and **ASP.NET C
 * Modern, responsive UI with Blazor WASM
 * RESTful API built on ASP.NET Core Web API
 * SQL Server database persistence
-* Docker-friendly configuration
 
 ---
 
@@ -41,7 +40,6 @@ A ToDo list web app built with **Blazor WebAssembly** (frontend) and **ASP.NET C
 
 * [.NET 7 SDK or later](https://dotnet.microsoft.com/download)
 * [SQL Server 2017+](https://www.microsoft.com/sql-server)
-* (Optional) [Docker](https://www.docker.com/) for containerized setup
 
 ---
 
@@ -121,7 +119,6 @@ dotnet ef database update
    dotnet run
    ```
 
-   The API listens on `https://localhost:5001` by default.
 
 2. **Start the Blazor client**
 
@@ -130,7 +127,7 @@ dotnet ef database update
    dotnet run
    ```
 
-   Navigate to `https://localhost:5002` (or the port shown in the console).
+   Navigate to the port shown in the console.
 
 ### From Visual Studio
 
@@ -152,7 +149,6 @@ Install via CLI:
 ```bash
 dotnet add Server/Server.csproj package Microsoft.EntityFrameworkCore.SqlServer
 dotnet add Server/Server.csproj package Microsoft.EntityFrameworkCore.Tools
-dotnet add Server/Server.csproj package Swashbuckle.AspNetCore
 ```
 
 ### Client (Blazor WebAssembly)
