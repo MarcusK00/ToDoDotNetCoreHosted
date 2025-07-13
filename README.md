@@ -1,6 +1,6 @@
 # ToDo List Application
 
-A ToDo list web app built with **Blazor WebAssembly** (frontend) and **ASP.NET Core Web API** (backend), persisting data to a SQL Server database.
+A ToDo list web app built with **Blazor WebAssembly**  and **ASP.NET Core Web API**. persisting data to a SQL Server database.
 <img width="1842" height="901" alt="HOME" src="https://github.com/user-attachments/assets/a9adcf88-d72f-43c6-b758-d85ca45aa717" />
 <img width="1847" height="897" alt="EDIT" src="https://github.com/user-attachments/assets/151925b6-cd05-4e21-8bfa-3a1785aae8f9" />
 
